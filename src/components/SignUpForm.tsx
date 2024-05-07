@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { useSignUp } from '@clerk/nextjs';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,10 +18,32 @@ type Props = {
     setEmail: React.Dispatch<React.SetStateAction<string>>,
     setPassword: React.Dispatch<React.SetStateAction<string>>,
     setName: React.Dispatch<React.SetStateAction<string>>,
+    emailAddress: string,
+    password: string
 }
 
-export default function SignInForm({ setStage, setEmail, setName, setPassword }: Props) {
+export default function SignInForm({ setStage, setEmail, setName, setPassword, emailAddress, password }: Props) {
     const router = useRouter()
+    const { isLoaded, signUp } = useSignUp();
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (!isLoaded) {
+            return;
+        }
+        try {
+            await signUp.create({
+                emailAddress,
+                password,
+            });
+
+            await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+            setStage("emailVerify")
+
+        } catch (err: any) {
+            console.error(JSON.stringify(err, null, 2));
+        }
+    }
     return (
         <Card className="w-[30rem] h-[32rem] py-5 rounded-2xl">
             <CardHeader>
@@ -49,7 +72,7 @@ export default function SignInForm({ setStage, setEmail, setName, setPassword }:
                 </form>
             </CardContent>
             <CardFooter className="flex w-full mt-3 flex-col gap-y-4">
-                <Button className='w-full' onClick={() => setStage("emailVerify")}>CREATE ACCOUNT</Button>
+                <Button className='w-full' onClick={handleSubmit}>CREATE ACCOUNT</Button>
                 <p className='text-sm font-normal'>Have an account? <span onClick={() => router.push("/sign-in")} className='text-base font-medium cursor-pointer'>Login</span></p>
             </CardFooter>
         </Card>
