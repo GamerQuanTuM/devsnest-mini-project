@@ -14,11 +14,39 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useSignIn } from '@clerk/nextjs'
 
 export default function SignUp() {
+  const { isLoaded, signIn,setActive } = useSignIn();
   const router = useRouter()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const result = await signIn.create({
+        identifier: email,
+        password,
+      });
+
+      if (result.status === "complete") {
+        console.log(result);
+        await setActive({ session: result.createdSessionId });
+        router.push("/")
+      }
+      else {
+        console.log(result);
+      }
+
+    } catch (err: any) {
+      console.error("error", err.errors[0].longMessage)
+    }
+  };
   return (
     <div className='h-full w-full flex justify-center items-center'>
       <Card className="w-[30rem] h-[32rem] py-5 rounded-2xl">
@@ -43,7 +71,7 @@ export default function SignUp() {
           </form>
         </CardContent>
         <CardFooter className="flex w-full mt-3 flex-col gap-y-4">
-          <Button className='w-full'>LOGIN</Button>
+          <Button className='w-full' onClick={handleSubmit}>LOGIN</Button>
           <p className='text-sm font-normal'>Don&apos;t have an Account? <span onClick={() => router.push("/sign-up")} className='text-base font-medium cursor-pointer'>Sign Up</span></p>
         </CardFooter>
       </Card>

@@ -19,12 +19,16 @@ type Props = {
     setPassword: React.Dispatch<React.SetStateAction<string>>,
     setName: React.Dispatch<React.SetStateAction<string>>,
     emailAddress: string,
-    password: string
+    password: string,
+    name: string
 }
 
-export default function SignInForm({ setStage, setEmail, setName, setPassword, emailAddress, password }: Props) {
+export default function SignInForm({ setStage, setEmail, setName, setPassword, emailAddress, password, name }: Props) {
     const router = useRouter()
     const { isLoaded, signUp } = useSignUp();
+
+    const firstName = name?.split(" ")[0]
+    const lastName = name?.split(" ")[1]
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -35,6 +39,8 @@ export default function SignInForm({ setStage, setEmail, setName, setPassword, e
             await signUp.create({
                 emailAddress,
                 password,
+                firstName: firstName,
+                lastName: lastName
             });
 
             await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
