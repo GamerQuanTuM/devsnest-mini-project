@@ -30,6 +30,8 @@ async function handler(request: Request) {
             const { id, email_addresses, first_name, last_name } = evt.data;
             let email = email_addresses[0].email_address
 
+            console.log(evt.data)
+
             await prismadb.user.upsert({
                 where: { externalId: id as string },
                 create: {
