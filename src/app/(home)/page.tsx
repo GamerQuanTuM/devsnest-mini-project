@@ -55,7 +55,7 @@ export default function Home() {
               onPageChange={handlePageChange}
               containerClassName={'flex justify-center mt-8'}
               pageClassName={'bg-white border border-gray-300 w-11 h-11 mx-1 px-3 py-2 cursor-pointer text-center'}
-              activeClassName={'bg-red-600 text-white mx-1 px-3 py-2 cursor-pointer'}
+              activeClassName={'bg-blue-600 text-white mx-1 px-3 py-2 cursor-pointer'}
               previousLabel={<ChevronLeft className='mt-3' />}
               nextLabel={<ChevronRight className='mt-3' />}
               marginPagesDisplayed={1}
