@@ -2,8 +2,8 @@ import axios from "axios";
 
 const DEV_URL = "http://localhost:3000"
 
-const PROD_URL = ""
+const PROD_URL = "https://devsnest-mini-project-git-master-gamerquantums-projects.vercel.app"
 
 export const axiosInstance = axios.create({
-    baseURL: `${DEV_URL}/api`
+    baseURL: `${PROD_URL}/api`
 });
