@@ -1,13 +1,13 @@
 "use client"
 import React from 'react'
-// import { useClerk, useUser } from '@clerk/nextjs';
+import { useClerk, useUser } from '@clerk/nextjs';
 import { ChevronLeft, ChevronRight, Search, ShoppingCart } from 'lucide-react'
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
-    // const router = useRouter()
-    // const { signOut } = useClerk();
-    // const { user } = useUser()
+    const router = useRouter()
+    const { signOut } = useClerk();
+    const { user } = useUser()
     return (
         <nav className='flex flex-col'>
             {/* First Section */}
@@ -15,8 +15,7 @@ export default function Header() {
                 <div className='flex gap-x-5 mr-10 items-center'>
                     <p className='cursor-pointer text-sm'>Help</p>
                     <p className='cursor-pointer text-sm'>Orders & Returns</p>
-                    {/* <p onClick={() => signOut(() => router.push("/sign-in"))} className='cursor-pointer text-sm'>Hi, {user ? user?.fullName : "user"}</p> */}
-                    <p className='cursor-pointer text-sm'>Hi,user</p>
+                    <p onClick={() => signOut(() => router.push("/sign-in"))} className='cursor-pointer text-sm'>Hi, {user ? user?.fullName : "user"}</p>
                 </div>
             </div>
             {/* Second Section */}
