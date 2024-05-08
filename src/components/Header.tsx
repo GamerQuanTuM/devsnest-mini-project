@@ -1,7 +1,13 @@
-import { ChevronLeft, ChevronRight, Search, ShoppingCart } from 'lucide-react'
+"use client"
 import React from 'react'
+import { useClerk, useUser } from '@clerk/nextjs';
+import { ChevronLeft, ChevronRight, Search, ShoppingCart } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+    const router = useRouter()
+    const { signOut } = useClerk();
+    const { user } = useUser()
     return (
         <nav className='flex flex-col'>
             {/* First Section */}
@@ -9,7 +15,7 @@ export default function Header() {
                 <div className='flex gap-x-5 mr-10 items-center'>
                     <p className='cursor-pointer text-sm'>Help</p>
                     <p className='cursor-pointer text-sm'>Orders & Returns</p>
-                    <p className='cursor-pointer text-sm'>Hi,John</p>
+                    <p onClick={() => signOut(() => router.push("/sign-in"))} className='cursor-pointer text-sm'>Hi, {user ? user?.fullName : "user"}</p>
                 </div>
             </div>
             {/* Second Section */}
@@ -31,9 +37,9 @@ export default function Header() {
 
             {/* Grey Border */}
             <div className='w-full h-10 bg-[#F4F4F4] mt-3 flex items-center justify-center gap-x-12'>
-                <ChevronLeft size={18}/>
+                <ChevronLeft size={18} />
                 <p className='text-sm font-normal'>Get 10% off on business sign up</p>
-                <ChevronRight size={18}/>
+                <ChevronRight size={18} />
             </div>
         </nav>
     )

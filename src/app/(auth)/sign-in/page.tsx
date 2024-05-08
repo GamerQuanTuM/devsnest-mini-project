@@ -35,12 +35,11 @@ export default function SignUp() {
       });
 
       if (result.status === "complete") {
-        console.log(result);
         await setActive({ session: result.createdSessionId });
         router.push("/")
       }
       else {
-        console.log(result);
+        return
       }
 
     } catch (err: any) {

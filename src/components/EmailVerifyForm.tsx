@@ -60,8 +60,6 @@ export default function EmailVerifyForm({ email, password, name, otp, setOtp }: 
             console.error(JSON.stringify(err, null, 2));
         }
     }
-
-    console.log(otp)
     return (
         <Card className="w-[28rem] h-[23rem] py-5 rounded-2xl">
             <CardHeader className='flex flex-col gap-y-3'>
