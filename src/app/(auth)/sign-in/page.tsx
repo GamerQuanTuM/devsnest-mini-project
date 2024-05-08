@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { useSignIn } from '@clerk/nextjs'
 
 export default function SignUp() {
-  const { isLoaded, signIn,setActive } = useSignIn();
+  const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -38,8 +38,8 @@ export default function SignUp() {
         await setActive({ session: result.createdSessionId });
         router.push("/")
       }
-      else {
-        return
+      if (result.status !== "complete") {
+        console.log(JSON.stringify(result, null, 2));
       }
 
     } catch (err: any) {
